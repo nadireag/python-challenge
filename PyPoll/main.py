@@ -24,7 +24,6 @@ with open(csvpath, newline="") as csvfile:
     # loop through the rows to add items to the lists
     for row in csvreader:
         voter_id.append(row[0])
-        county.append(row[1])
         candidate.append(row[2])
     
     # Find total votes
@@ -37,30 +36,26 @@ with open(csvpath, newline="") as csvfile:
     for row in candidate:
         if row not in candidate_names:
             candidate_names.append(row)
-    #print(candidate_names)
 
-    # Find each candidate's total votes
-    #candidate_votes = 0
-    #for name in candidate_names:
-        #for row in candidate:
-            #if name == row:
-                #candidate_votes +=1
-    #print(f"{name} {candidate_votes}")
-           
-
-    #print(candidate_votes)
-    
-    #percentage = round(candidate_votes / total_votes * 100 , 2)
-
-    #print(f"{name}: {percentage}% ({candidate_votes})")
-
-    
+    # Find each candidate's total vote, and percentage
+    for i in range(0,len(candidate_names)):
+        vote_count = 0
+        for row in candidate:    
+            if row == candidate_names[i]:
+                vote_count +=1
+                percentage = round(vote_count / total_votes * 100, 2)
+                #percentage.append(round(vote_count / total_votes * 100, 2))
+            
+        print(f"{candidate_names[i]}: {percentage}% ({vote_count})")
+        #print(percentage) 
+        #print(f"Winner: {winner}")
+        
 
 print(f'-------------------------')
-
+        
 # Write the results to the output file
 # create a path for the output file
-output_file = os.path.join("vote_counting.txt")
+output_file = ("vote_counting.txt")
 
 # open the file to write text
 with open(output_file, "w") as text:
@@ -69,4 +64,8 @@ with open(output_file, "w") as text:
     text.write(f"------------------------\n")
     text.write(f"Total Votes:  {total_votes}\n")
     text.write(f"------------------------\n")
+    #text.write(f"{candidate_names[i]}: {percentage}% ({vote_count})\n")
+
+
+
     
