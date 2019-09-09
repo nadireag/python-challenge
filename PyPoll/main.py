@@ -9,6 +9,8 @@ csvpath = os.path.join("election_data.csv")
 voter_id = []
 county = []
 candidate = []
+winner = 0
+winner_candidate = ""
 
 # print the text
 print("Election Results")
@@ -44,13 +46,14 @@ with open(csvpath, newline="") as csvfile:
             if row == candidate_names[i]:
                 vote_count +=1
                 percentage = round(vote_count / total_votes * 100, 2)
-                #percentage.append(round(vote_count / total_votes * 100, 2))
+                if percentage > winner:
+                    winner = percentage
+                    winner_candidate = candidate_names[i]
+    
             
-        print(f"{candidate_names[i]}: {percentage}% ({vote_count})")
-        #print(percentage) 
-        #print(f"Winner: {winner}")
-        
-
+        print(f"{candidate_names[i]}: {percentage}% ({vote_count})") 
+    print(f'-------------------------')
+    print(f"Winner: {winner_candidate}")        
 print(f'-------------------------')
         
 # Write the results to the output file
@@ -64,7 +67,12 @@ with open(output_file, "w") as text:
     text.write(f"------------------------\n")
     text.write(f"Total Votes:  {total_votes}\n")
     text.write(f"------------------------\n")
-    #text.write(f"{candidate_names[i]}: {percentage}% ({vote_count})\n")
+    for i in range(0,len(candidate_names)):
+        text.write(f"{candidate_names[i]}: {percentage}% ({vote_count})\n")
+    text.write(f"------------------------\n")
+    text.write(f"Winner: {winner_candidate}\n")
+    text.write(f'------------------------\n')
+
 
 
 
