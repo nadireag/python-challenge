@@ -67,13 +67,14 @@ with open(csvpath, newline = "") as csvfile:
 output_file = "budget_analysis.txt"
 
 # write the data to the output file
-with open(output_file, "w" ) as text:
-    output= [f"Financial Analysis\n",
+output= [f"Financial Analysis\n",
              f"--------------------------\n",
              f"Total Months: {total_months}\n",
              f"Total: ${total}\n",
              f"Average Change: ${average_change}\n",
              f"Greatest Inrease in Profits: {months[index1 +1]} (${greatest_increase})\n",
              f"Greatest Decrease in Profits: {months[index2+ 1]} (${greatest_decrease})\n"]
-    
+
+with open(output_file, "w" ) as text: 
     text.writelines(output)
+    
