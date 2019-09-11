@@ -2,78 +2,77 @@
 import os
 import csv
 
-# Specify the path for csv file
-csvpath = os.path.join("election_data.csv")
-
-# Create lists to hold info
+# Create variables to hold data
 voter_id = []
-county = []
 candidate = []
+candidate_names = []
+percentage = []
+vote_count = []
 winner = 0
 winner_candidate = ""
 
-# print the text
-print("Election Results")
-print("-------------------------")
+# print text
+print(f"Election Results")
+print(f"---------------------")
 
-# Open the file to read csv file
-with open(csvpath, newline="") as csvfile:
+# Specify the file path for csv file
+csv_path = "election_data.csv"
+
+# Read the csv file
+with open(csv_path, newline= "") as csvfile:
     csvreader = csv.reader(csvfile, delimiter = ",")
 
-    # read header first
+    # Read the header first
     csv_header = next(csvreader)
 
-    # loop through the rows to add items to the lists
+    # Read the rows to put data in the lists
     for row in csvreader:
         voter_id.append(row[0])
         candidate.append(row[2])
-    
-    # Find total votes
-    total_votes = len(voter_id)
-    print(f"Total Votes:  {total_votes}")
-    print("-------------------------")
 
-    # Find candidate names
-    candidate_names = []
-    for row in candidate:
+    # Calculate the total by counting voter id's and print the result
+    total_votes = len(voter_id)
+    print(f"Total Votes: {total_votes}")
+    print(f"----------------------")
+
+    # Create a list to keep candidate names
+    for row in candidate: 
         if row not in candidate_names:
             candidate_names.append(row)
 
-    # Find each candidate's total vote, and percentage
-    for i in range(0,len(candidate_names)):
-        vote_count = 0
-        for row in candidate:    
-            if row == candidate_names[i]:
-                vote_count +=1
-                percentage = round(vote_count / total_votes * 100, 2)
-                if percentage > winner:
-                    winner = percentage
-                    winner_candidate = candidate_names[i]
-    
-            
-        print(f"{candidate_names[i]}: {percentage}% ({vote_count})") 
-    print(f'-------------------------')
-    print(f"Winner: {winner_candidate}")        
-print(f'-------------------------')
+    # Count each candidates votes and calculate percentage
+    for name in candidate_names:
+        count = 0
+        for row in candidate:
+            if name == row:
+                count += 1
+                percent = round(count / total_votes * 100, 2)
+            if count > winner:
+                winner = count
+                winner_candidate = name
         
-# Write the results to the output file
-# create a path for the output file
-output_file = ("vote_counting.txt")
+        # Put data to the lists
+        percentage.append(percent)
+        vote_count.append(count) 
 
-# open the file to write text
-with open(output_file, "w") as text:
-    
-    text.write("Election Results\n")
-    text.write(f"------------------------\n")
-    text.write(f"Total Votes:  {total_votes}\n")
-    text.write(f"------------------------\n")
-    for i in range(0,len(candidate_names)):
-        text.write(f"{candidate_names[i]}: {percentage}% ({vote_count})\n")
-    text.write(f"------------------------\n")
-    text.write(f"Winner: {winner_candidate}\n")
-    text.write(f'------------------------\n')
+        # Grab the name's indexes for corresponding percentage and count variables
+        j = candidate_names.index(name)
+              
+        # Print the values 
+        print(f"{candidate_names[j]}: {percentage[j]}% ({vote_count[j]})")
+    print("-----------------------")
+    print(f"Winner: {winner_candidate}")
+    print("-----------------------")
 
+    # Create an output path to write data
+    output_file = "vote_analysis.txt"
 
-
-
-    
+    # Write the output file 
+    with open(output_file, "w") as text:
+        text.write("Election Results\n---------------------\n")
+        text.write(f"Total Votes: {total_votes}\n---------------------\n")
+        for name in candidate_names:
+            text.write(f"{name}: {percentage[candidate_names.index(name)]}% ({vote_count[candidate_names.index(name)]})\n")
+        text.write(f"----------------------\nWinner: {winner_candidate}\n----------------------\n")
+        
+        
