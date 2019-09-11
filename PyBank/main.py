@@ -23,33 +23,37 @@ with open(csvpath, newline = "") as csvfile:
         months.append(row[0])
         profit_loss.append(int(row[1]))
 
-    # print text 
-    print("Financial Analysis")
-    print("--------------------------")
+    # create output variable to hold data to print
+    output = (
+        f"Financial Analysis\n"
+        f"--------------------------\n")
 
     # calculate the total number of months 
     total_months = len(months)
-    print(f"Total Months: {total_months}")
+    
+    # add results to output 
+    output = output + (f"Total Months: {total_months}\n")
 
     # loop through the list to calculate  the net total profit/losses
     total = 0
     for row in profit_loss:
         total += (row)
 
-    # print total_profit_loss
-    print(f"Total: ${total}")
+    # keep building the output
+    output = output + (f"Total: ${total}\n")
 
     # Create change list to hold info, change list's index will be one less then profit/loss index
-    for i in range(0,(len(profit_loss)-1)):
-        change.append(int(profit_loss[i+1]) - int(profit_loss[i]))
+    for i in range(0,(len(profit_loss) - 1)):
+        change.append(int(profit_loss[i + 1]) - int(profit_loss[i]))
 
     # Find average change
     total_change = 0
     for row in change:
         total_change +=row
-    average_change = round(total_change / len(change),2)
+    average_change = round(total_change / len(change), 2)
 
-    print(f"Average Change: ${average_change}")
+    # keep building the output
+    output = output + (f"Average Change: ${average_change}\n")
 
     # Find greatest increase and decrease
     greatest_increase = max(change)
@@ -59,22 +63,17 @@ with open(csvpath, newline = "") as csvfile:
     index1 = change.index(greatest_increase)
     index2 = change.index(greatest_decrease)
     
-    # for change list date starts from the second date available, index for months is same as change index +1
-    print(f"Greatest Inrease in Profits: {months[(index1) +1]} (${greatest_increase})")
-    print(f"Greatest Decrease in Profits: {months[(index2)+ 1]} (${greatest_decrease})")
+    # keep adding the output
+    output = output + (f"Greatest Inrease in Profits: {months[(index1) + 1]} (${greatest_increase})\n"
+        f"Greatest Decrease in Profits: {months[(index2) + 1]} (${greatest_decrease})\n")
+
+# print results to the terminal
+print(output)
 
 # Create path for the output file
 output_file = "budget_analysis.txt"
 
-# write the data to the output file
-output= [f"Financial Analysis\n",
-             f"--------------------------\n",
-             f"Total Months: {total_months}\n",
-             f"Total: ${total}\n",
-             f"Average Change: ${average_change}\n",
-             f"Greatest Inrease in Profits: {months[index1 +1]} (${greatest_increase})\n",
-             f"Greatest Decrease in Profits: {months[index2+ 1]} (${greatest_decrease})\n"]
-
+# write results to the output file
 with open(output_file, "w" ) as text: 
-    text.writelines(output)
+    text.write(output)
     
