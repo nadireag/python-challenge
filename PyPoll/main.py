@@ -11,9 +11,10 @@ vote_count = []
 winner = 0
 winner_candidate = ""
 
-# print text
-print(f"Election Results")
-print(f"---------------------")
+# create output variable to hold data to print
+output = (
+        f"Election Results\n"
+        f"---------------------\n")
 
 # Specify the file path for csv file
 csv_path = "election_data.csv"
@@ -32,9 +33,11 @@ with open(csv_path, newline= "") as csvfile:
 
     # Calculate the total by counting voter id's and print the result
     total_votes = len(voter_id)
-    print(f"Total Votes: {total_votes}")
-    print(f"----------------------")
-
+    
+    # add results to output variable
+    output = output + (f"Total Votes: {total_votes}\n" 
+        f"---------------------\n")
+    
     # Create a list to keep candidate names
     for row in candidate: 
         if row not in candidate_names:
@@ -46,7 +49,7 @@ with open(csv_path, newline= "") as csvfile:
         for row in candidate:
             if name == row:
                 count += 1
-                percent = round(count / total_votes * 100, 2)
+                percent = float(count) / float(total_votes) * 100
             if count > winner:
                 winner = count
                 winner_candidate = name
@@ -58,21 +61,19 @@ with open(csv_path, newline= "") as csvfile:
         # Grab the name's indexes for corresponding percentage and count variables
         j = candidate_names.index(name)
               
-        # Print the values 
-        print(f"{candidate_names[j]}: {percentage[j]}% ({vote_count[j]})")
-    print("-----------------------")
-    print(f"Winner: {winner_candidate}")
-    print("-----------------------")
+        # keep building the output
+        output = output + (f"{candidate_names[j]}: {percentage[j]:.3f}% ({vote_count[j]})\n")
 
+    output = output + (f"----------------------\n"
+        f"Winner : {winner_candidate}\n"
+        f"----------------------\n")
+    # print the output to the terminal
+    print(output, end="")
+    
     # Create an output path to write data
     output_file = "vote_analysis.txt"
 
     # Write the output file 
     with open(output_file, "w") as text:
-        text.write("Election Results\n---------------------\n")
-        text.write(f"Total Votes: {total_votes}\n---------------------\n")
-        for name in candidate_names:
-            text.write(f"{name}: {percentage[candidate_names.index(name)]}% ({vote_count[candidate_names.index(name)]})\n")
-        text.write(f"----------------------\nWinner: {winner_candidate}\n----------------------\n")
-        
+        text.write(output)
         
