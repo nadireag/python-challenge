@@ -3,7 +3,7 @@ import os
 import csv
 
 # specify the path for the csv file
-csvpath = "budget_data.csv"
+csvpath = os.path.join("Resources", "budget_data.csv")
 
 # create lists to hold date, profit/loss and change info
 months = []
@@ -64,6 +64,7 @@ with open(csvpath, newline = "") as csvfile:
     index2 = change.index(greatest_decrease)
     
     # keep adding the output
+    # for the change, list date starts from the second date available, index for months is same as change index + 1
     output = output + (f"Greatest Inrease in Profits: {months[(index1) + 1]} (${greatest_increase})\n"
         f"Greatest Decrease in Profits: {months[(index2) + 1]} (${greatest_decrease})\n")
 
@@ -71,7 +72,7 @@ with open(csvpath, newline = "") as csvfile:
 print(output)
 
 # Create path for the output file
-output_file = "budget_analysis.txt"
+output_file = os.path.join("Resources", "budget_analysis.txt")
 
 # write results to the output file
 with open(output_file, "w" ) as text: 

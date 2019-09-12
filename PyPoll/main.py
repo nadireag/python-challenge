@@ -17,7 +17,7 @@ output = (
         f"---------------------\n")
 
 # Specify the file path for csv file
-csv_path = "election_data.csv"
+csv_path = os.path.join("Resources", "election_data.csv")
 
 # Read the csv file
 with open(csv_path, newline= "") as csvfile:
@@ -71,7 +71,7 @@ with open(csv_path, newline= "") as csvfile:
     print(output, end="")
     
     # Create an output path to write data
-    output_file = "vote_analysis.txt"
+    output_file = os.path.join("Resources", "vote_analysis.txt")
 
     # Write the output file 
     with open(output_file, "w") as text:
